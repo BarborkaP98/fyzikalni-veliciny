@@ -84,10 +84,20 @@ function vytvorKartu(text, skupina) {
   karta.dataset.s = skupina;
 
   // ✅ výběr karty
-  karta.addEventListener("click", function () {
-    vybranaKarta = karta;
-  });
+function vyberKartu(karta) {
+  vybranaKarta = karta;
+}
 
+// ✅ click (PC)
+karta.addEventListener("click", function () {
+  vyberKartu(karta);
+});
+
+// ✅ touch (mobil)
+karta.addEventListener("touchstart", function (e) {
+  e.preventDefault();
+  vyberKartu(karta);
+});
   return karta;
 }
 
@@ -143,7 +153,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
   sloupce.forEach(function (sloupec) {
 
-    sloupec.addEventListener("click", function () {
+  function klikNaSloupec(sloupec) {
+  if (!vybranaKarta) return;
+  presunKartu(sloupec, vybranaKarta);
+}
+
+// PC
+sloupec.addEventListener("click", function () {
+  klikNaSloupec(sloupec);
+});
+
+// mobil
+sloupec.addEventListener("touchstart", function (e) {
+  e.preventDefault();
+  klikNaSloupec(sloupec);
+});
       if (!vybranaKarta) return;
 
       presunKartu(sloupec, vybranaKarta);
