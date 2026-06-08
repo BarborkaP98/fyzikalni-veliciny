@@ -1,68 +1,33 @@
 let balicek = [];
 let vybranaKarta = null;
 
-// ✅ DATA
+// ✅ VŠECHNY VELIČINY (TVOJE + NOVÉ)
 let veliciny = [
-  {
-    nazev: "rychlost",
-    znacka: "v",
-    jednotka: "m/s (metr za sekundu)",
-    meridlo: "tachometr"
-  },
-  {
-    nazev: "hmotnost",
-    znacka: "m",
-    jednotka: "kg (kilogram)",
-    meridlo: "váhy"
-  },
-  {
-    nazev: "čas",
-    znacka: "t",
-    jednotka: "s (sekunda)",
-    meridlo: "stopky"
-  },
-  {
-    nazev: "teplota",
-    znacka: "T",
-    jednotka: "°C (stupeň Celsia)",
-    meridlo: "teploměr"
-  },
-  {
-    nazev: "síla",
-    znacka: "F",
-    jednotka: "N (newton)",
-    meridlo: "siloměr"
-  },
-  {
-    nazev: "hustota",
-    znacka: "ρ",
-    jednotka: "kg/m³ (kilogram na metr krychlový)",
-    meridlo: "hustoměr"
-  },
-  {
-    nazev: "délka",
-    znacka: "l",
-    jednotka: "m (metr)",
-    meridlo: "pravítko"
-  },
-  {
-    nazev: "elektrický proud",
-    znacka: "I",
-    jednotka: "A (ampér)",
-    meridlo: "ampérmetr"
-  }
+  { nazev: "rychlost", znacka: "v", jednotka: "m/s (metr za sekundu)", meridlo: "tachometr" },
+  { nazev: "hmotnost", znacka: "m", jednotka: "kg (kilogram)", meridlo: "váhy" },
+  { nazev: "čas", znacka: "t", jednotka: "s (sekunda)", meridlo: "stopky" },
+  { nazev: "teplota", znacka: "T", jednotka: "°C (stupeň Celsia)", meridlo: "teploměr" },
+  { nazev: "síla", znacka: "F", jednotka: "N (newton)", meridlo: "siloměr" },
+  { nazev: "hustota", znacka: "ρ", jednotka: "kg/m³ (kilogram na metr krychlový)", meridlo: "hustoměr" },
+  { nazev: "délka", znacka: "l", jednotka: "m (metr)", meridlo: "pravítko" },
+  { nazev: "elektrický proud", znacka: "I", jednotka: "A (ampér)", meridlo: "ampérmetr" }
 ];
 
-// ✅ GENEROVÁNÍ
+// ✅ GENEROVÁNÍ (KLÍČOVÁ ÚPRAVA)
 function generuj() {
   balicek = [];
-// vyber náhodných 5 veličin
-let vybrane = [];
 
-while (vybrane.length < 5) {
-  let r = veliciny[Math.floor(Math.random() * veliciny.length)];
-  if (!vybrane.includes(r)) vybrane.push(r);
-}
+  // ✅ vyber 5 náhodných veličin
+  let vybrane = [];
+
+  while (vybrane.length < 5) {
+    let r = veliciny[Math.floor(Math.random() * veliciny.length)];
+    if (!vybrane.includes(r)) {
+      vybrane.push(r);
+    }
+  }
+
+  // ✅ vytvoř karty jen z nich
   vybrane.forEach(function (v) {
     balicek.push({ text: v.nazev, skupina: v.nazev });
     balicek.push({ text: v.znacka, skupina: v.nazev });
@@ -70,10 +35,7 @@ while (vybrane.length < 5) {
     balicek.push({ text: v.meridlo, skupina: v.nazev });
   });
 
-  // zamíchání
-  balicek.sort(function () {
-    return Math.random() - 0.5;
-  });
+  balicek.sort(() => Math.random() - 0.5);
 }
 
 // ✅ KARTA
@@ -83,21 +45,10 @@ function vytvorKartu(text, skupina) {
   karta.innerText = text;
   karta.dataset.s = skupina;
 
-  // ✅ výběr karty
-function vyberKartu(karta) {
-  vybranaKarta = karta;
-}
+  karta.addEventListener("click", function () {
+    vybranaKarta = karta;
+  });
 
-// ✅ click (PC)
-karta.addEventListener("click", function () {
-  vyberKartu(karta);
-});
-
-// ✅ touch (mobil)
-karta.addEventListener("touchstart", function (e) {
-  e.preventDefault();
-  vyberKartu(karta);
-});
   return karta;
 }
 
@@ -116,12 +67,11 @@ function lizniKartu() {
   zona.appendChild(vytvorKartu(k.text, k.skupina));
 }
 
-// ✅ PŘESUN (HLAVNÍ FIX)
+// ✅ PŘESUN
 function presunKartu(sloupec, karta) {
 
   let puvodni = karta.parentElement;
 
-  // uklid původního sloupce
   if (puvodni && puvodni.classList.contains("sloupec")) {
     let karty = puvodni.querySelectorAll(".karta");
 
@@ -132,7 +82,6 @@ function presunKartu(sloupec, karta) {
     }
   }
 
-  // nový sloupec je prázdný → přidáme nadpis
   if (sloupec.querySelectorAll(".karta").length === 0) {
     let nadpis = document.createElement("div");
     nadpis.innerText = karta.dataset.s;
@@ -149,25 +98,11 @@ function presunKartu(sloupec, karta) {
 // ✅ INIT
 document.addEventListener("DOMContentLoaded", function () {
 
-  let sloupce = document.querySelectorAll(".sloupec");
+  document.querySelectorAll(".sloupec").forEach(function (sloupec) {
 
-  sloupce.forEach(function (sloupec) {
+    sloupec.addEventListener("click", function (e) {
+      e.stopPropagation();
 
-  function klikNaSloupec(sloupec) {
-  if (!vybranaKarta) return;
-  presunKartu(sloupec, vybranaKarta);
-}
-
-// PC
-sloupec.addEventListener("click", function () {
-  klikNaSloupec(sloupec);
-});
-
-// mobil
-sloupec.addEventListener("touchstart", function (e) {
-  e.preventDefault();
-  klikNaSloupec(sloupec);
-});
       if (!vybranaKarta) return;
 
       presunKartu(sloupec, vybranaKarta);
