@@ -1,7 +1,7 @@
 let balicek = [];
 let vybranaKarta = null;
 
-// ✅ VŠECHNY VELIČINY (TVOJE + NOVÉ)
+// ✅ DATA (VŠECHNY VELIČINY)
 let veliciny = [
   { nazev: "rychlost", znacka: "v", jednotka: "m/s (metr za sekundu)", meridlo: "tachometr" },
   { nazev: "hmotnost", znacka: "m", jednotka: "kg (kilogram)", meridlo: "váhy" },
@@ -13,11 +13,10 @@ let veliciny = [
   { nazev: "elektrický proud", znacka: "I", jednotka: "A (ampér)", meridlo: "ampérmetr" }
 ];
 
-// ✅ GENEROVÁNÍ (KLÍČOVÁ ÚPRAVA)
+// ✅ GENEROVÁNÍ
 function generuj() {
   balicek = [];
 
-  // ✅ vyber 5 náhodných veličin
   let vybrane = [];
 
   while (vybrane.length < 5) {
@@ -27,7 +26,6 @@ function generuj() {
     }
   }
 
-  // ✅ vytvoř karty jen z nich
   vybrane.forEach(function (v) {
     balicek.push({ text: v.nazev, skupina: v.nazev });
     balicek.push({ text: v.znacka, skupina: v.nazev });
@@ -35,7 +33,9 @@ function generuj() {
     balicek.push({ text: v.meridlo, skupina: v.nazev });
   });
 
-  balicek.sort(() => Math.random() - 0.5);
+  balicek.sort(function () {
+    return Math.random() - 0.5;
+  });
 }
 
 // ✅ KARTA
@@ -95,13 +95,14 @@ function presunKartu(sloupec, karta) {
   document.getElementById("aktualni-karta").innerHTML = "";
 }
 
-// ✅ INIT
+// ✅ INIT (KLÍČOVÉ!)
 document.addEventListener("DOMContentLoaded", function () {
 
-  document.querySelectorAll(".sloupec").forEach(function (sloupec) {
+  let sloupce = document.querySelectorAll(".sloupec");
 
-    sloupec.addEventListener("click", function (e) {
-      e.stopPropagation();
+  sloupce.forEach(function (sloupec) {
+
+    sloupec.addEventListener("click", function () {
 
       if (!vybranaKarta) return;
 
