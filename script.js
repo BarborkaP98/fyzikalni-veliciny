@@ -21,6 +21,7 @@ function generuj() {
     balicek.push({ text: v.meridlo, skupina: v.nazev });
   });
 
+  // zamíchání
   balicek.sort(function () {
     return Math.random() - 0.5;
   });
@@ -33,6 +34,7 @@ function vytvorKartu(text, skupina) {
   karta.innerText = text;
   karta.dataset.s = skupina;
 
+  // ✅ výběr karty
   karta.addEventListener("click", function () {
     vybranaKarta = karta;
   });
@@ -55,11 +57,12 @@ function lizniKartu() {
   zona.appendChild(vytvorKartu(k.text, k.skupina));
 }
 
-// ✅ PŘESUN
-function presun(sloupec, karta) {
+// ✅ PŘESUN (HLAVNÍ FIX)
+function presunKartu(sloupec, karta) {
 
   let puvodni = karta.parentElement;
 
+  // uklid původního sloupce
   if (puvodni && puvodni.classList.contains("sloupec")) {
     let karty = puvodni.querySelectorAll(".karta");
 
@@ -70,6 +73,7 @@ function presun(sloupec, karta) {
     }
   }
 
+  // nový sloupec je prázdný → přidáme nadpis
   if (sloupec.querySelectorAll(".karta").length === 0) {
     let nadpis = document.createElement("div");
     nadpis.innerText = karta.dataset.s;
@@ -86,13 +90,15 @@ function presun(sloupec, karta) {
 // ✅ INIT
 document.addEventListener("DOMContentLoaded", function () {
 
-  document.querySelectorAll(".sloupec").forEach(function (sloupec) {
+  let sloupce = document.querySelectorAll(".sloupec");
+
+  sloupce.forEach(function (sloupec) {
 
     sloupec.addEventListener("click", function () {
       if (!vybranaKarta) return;
 
       presunKartu(sloupec, vybranaKarta);
-});
+    });
 
   });
 
@@ -122,7 +128,6 @@ window.zkontroluj = function () {
     }
 
   });
-
 };
 
 // ✅ NOVÁ HRA
