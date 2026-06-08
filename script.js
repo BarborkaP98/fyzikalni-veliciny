@@ -1,7 +1,8 @@
 let balicek = [];
 let vybranaKarta = null;
+let tazenaKarta = null;
 
-// ✅ DATA (VŠECHNY VELIČINY)
+// ✅ DATA
 let veliciny = [
   { nazev: "rychlost", znacka: "v", jednotka: "m/s (metr za sekundu)", meridlo: "tachometr" },
   { nazev: "hmotnost", znacka: "m", jednotka: "kg (kilogram)", meridlo: "váhy" },
@@ -21,9 +22,7 @@ function generuj() {
 
   while (vybrane.length < 5) {
     let r = veliciny[Math.floor(Math.random() * veliciny.length)];
-    if (!vybrane.includes(r)) {
-      vybrane.push(r);
-    }
+    if (!vybrane.includes(r)) vybrane.push(r);
   }
 
   vybrane.forEach(function (v) {
@@ -33,9 +32,7 @@ function generuj() {
     balicek.push({ text: v.meridlo, skupina: v.nazev });
   });
 
-  balicek.sort(function () {
-    return Math.random() - 0.5;
-  });
+  balicek.sort(() => Math.random() - 0.5);
 }
 
 // ✅ KARTA
@@ -44,9 +41,16 @@ function vytvorKartu(text, skupina) {
   karta.className = "karta";
   karta.innerText = text;
   karta.dataset.s = skupina;
+  karta.draggable = true; // ✅ zapnutí drag
 
+  // klik výběr
   karta.addEventListener("click", function () {
     vybranaKarta = karta;
+  });
+
+  // drag start
+  karta.addEventListener("dragstart", function () {
+    tazenaKarta = karta;
   });
 
   return karta;
@@ -92,21 +96,32 @@ function presunKartu(sloupec, karta) {
   sloupec.appendChild(karta);
 
   vybranaKarta = null;
+  tazenaKarta = null;
+
   document.getElementById("aktualni-karta").innerHTML = "";
 }
 
-// ✅ INIT (KLÍČOVÉ!)
+// ✅ INIT
 document.addEventListener("DOMContentLoaded", function () {
 
-  let sloupce = document.querySelectorAll(".sloupec");
+  document.querySelectorAll(".sloupec").forEach(function (sloupec) {
 
-  sloupce.forEach(function (sloupec) {
-
+    // klikání (zůstává)
     sloupec.addEventListener("click", function () {
-
       if (!vybranaKarta) return;
-
       presunKartu(sloupec, vybranaKarta);
+    });
+
+    // ✅ povolení dropu
+    sloupec.addEventListener("dragover", function (e) {
+      e.preventDefault();
+    });
+
+    // ✅ drop
+    sloupec.addEventListener("drop", function (e) {
+      e.preventDefault();
+      if (!tazenaKarta) return;
+      presunKartu(sloupec, tazenaKarta);
     });
 
   });
