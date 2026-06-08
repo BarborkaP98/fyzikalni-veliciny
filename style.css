@@ -1,1 +1,68 @@
+body {
+  margin: 0;
+  font-family: Arial;
+  text-align: center;
+  background: radial-gradient(circle, #2e7d32, #1b5e20);
+  color: white;
+}
 
+.logo {
+  font-size: 40px;
+  margin: 20px;
+}
+
+#aktualni-karta {
+  margin: 20px;
+  min-height: 60px;
+}
+
+#sloupce {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px;
+}
+
+.sloupec {
+  width: 120px;
+  min-height: 220px;
+  background: #c8e6c9;
+  border: 2px dashed #2e7d32;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.karta {
+  background: white;
+  color: black;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.radek {
+  margin: 15px;
+}
+
+button {
+  background: linear-gradient(135deg, #66bb6a, #2e7d32);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+/* ✅ podpis */
+.podpis {
+  position: fixed;
+  bottom: 6px;
+  right: 10px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.6);
+  pointer-events: none;
+}
+``
