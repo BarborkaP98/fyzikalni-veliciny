@@ -91,8 +91,8 @@ document.addEventListener("DOMContentLoaded", function () {
     sloupec.addEventListener("click", function () {
       if (!vybranaKarta) return;
 
-      presun(sloupec, vybranaKarta);
-    });
+      presunKartu(sloupec, vybranaKarta);
+});
 
   });
 
