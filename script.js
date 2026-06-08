@@ -3,18 +3,67 @@ let vybranaKarta = null;
 
 // ✅ DATA
 let veliciny = [
-  { nazev: "rychlost", znacka: "v", jednotka: "m/s", meridlo: "tachometr" },
-  { nazev: "hmotnost", znacka: "m", jednotka: "kg", meridlo: "váhy" },
-  { nazev: "čas", znacka: "t", jednotka: "s", meridlo: "stopky" },
-  { nazev: "teplota", znacka: "T", jednotka: "°C", meridlo: "teploměr" },
-  { nazev: "síla", znacka: "F", jednotka: "N", meridlo: "siloměr" }
+  {
+    nazev: "rychlost",
+    znacka: "v",
+    jednotka: "m/s (metr za sekundu)",
+    meridlo: "tachometr"
+  },
+  {
+    nazev: "hmotnost",
+    znacka: "m",
+    jednotka: "kg (kilogram)",
+    meridlo: "váhy"
+  },
+  {
+    nazev: "čas",
+    znacka: "t",
+    jednotka: "s (sekunda)",
+    meridlo: "stopky"
+  },
+  {
+    nazev: "teplota",
+    znacka: "T",
+    jednotka: "°C (stupeň Celsia)",
+    meridlo: "teploměr"
+  },
+  {
+    nazev: "síla",
+    znacka: "F",
+    jednotka: "N (newton)",
+    meridlo: "siloměr"
+  },
+  {
+    nazev: "hustota",
+    znacka: "ρ",
+    jednotka: "kg/m³ (kilogram na metr krychlový)",
+    meridlo: "hustoměr"
+  },
+  {
+    nazev: "délka",
+    znacka: "l",
+    jednotka: "m (metr)",
+    meridlo: "pravítko"
+  },
+  {
+    nazev: "elektrický proud",
+    znacka: "I",
+    jednotka: "A (ampér)",
+    meridlo: "ampérmetr"
+  }
 ];
 
 // ✅ GENEROVÁNÍ
 function generuj() {
   balicek = [];
+// vyber náhodných 5 veličin
+let vybrane = [];
 
-  veliciny.forEach(function (v) {
+while (vybrane.length < 5) {
+  let r = veliciny[Math.floor(Math.random() * veliciny.length)];
+  if (!vybrane.includes(r)) vybrane.push(r);
+}
+  vybrane.forEach(function (v) {
     balicek.push({ text: v.nazev, skupina: v.nazev });
     balicek.push({ text: v.znacka, skupina: v.nazev });
     balicek.push({ text: v.jednotka, skupina: v.nazev });
