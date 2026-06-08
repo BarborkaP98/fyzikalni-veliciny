@@ -7,8 +7,15 @@ body {
 }
 
 .logo {
-  font-size: 40px;
-  margin: 20px;
+  font-family: 'Playfair Display', serif;
+  font-size: 46px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 20px;
+
+  color: white;
+
+  text-shadow: 0 3px 8px rgba(0,0,0,0.4);
 }
 
 #aktualni-karta {
@@ -65,4 +72,4 @@ button {
   color: rgba(255,255,255,0.6);
   pointer-events: none;
 }
-``
+
